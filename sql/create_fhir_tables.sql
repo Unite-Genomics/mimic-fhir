@@ -55,11 +55,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 \echo fn_med_statement
 \i fn/fn_med_statement.sql
 
-
 \echo fn_create_table_patient_dependent
 \i fn/fn_create_table_patient_dependent.sql
 
--- institutional resources
+---- institutional resources
 \echo =========================== mimic_fhir tables ====================================
 \echo fhir_organization
 \i fhir_organization.sql
@@ -127,10 +126,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 \echo fhir_observation_micro_org
 \i fhir_observation_micro_org.sql
 
-
 \echo fhir_observation_micro_susc
 \i fhir_observation_micro_susc.sql
-
 
 \echo fhir_observation_outputevents
 \i fhir_observation_outputevents.sql
