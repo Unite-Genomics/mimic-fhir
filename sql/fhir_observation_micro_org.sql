@@ -64,8 +64,7 @@ WITH micro_info AS (
             ON ns_observation_micro_org.name = 'ObservationMicroOrg'
         LEFT JOIN fhir_etl.uuid_namespace ns_observation_micro_susc
             ON ns_observation_micro_susc.name = 'ObservationMicroSusc'
-)  
-  
+), patients as (SELECT DISTINCT patient_id FROM mimic_fhir.unite_fhir_conditions)
 INSERT INTO mimic_fhir.observation_micro_org  
 SELECT 
     uuid_MICRO_ORG AS id
@@ -102,4 +101,7 @@ SELECT
         , 'derivedFrom', jsonb_build_array(jsonb_build_object('reference', 'Observation/' || uuid_MICRO_TEST))
     )) AS fhir 
 FROM
-    fhir_observation_micro_org
+    fhir_observation_micro_org fomo, patients p
+WHERE fomo.uuid_SUBJECT_ID = p.patient_id
+;
+

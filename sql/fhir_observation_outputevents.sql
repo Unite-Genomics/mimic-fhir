@@ -27,7 +27,7 @@ WITH fhir_observation_oe AS (
             ON ns_patient.name = 'Patient'
         LEFT JOIN fhir_etl.uuid_namespace ns_observation_oe
             ON ns_observation_oe.name = 'ObservationOutputevents'
-)
+), patients as (SELECT DISTINCT patient_id FROM mimic_fhir.unite_fhir_conditions)
 INSERT INTO mimic_fhir.observation_outputevents
 SELECT 
     uuid_OUTPUTEVENT AS id
@@ -68,4 +68,6 @@ SELECT
             )
     )) AS fhir
 FROM
-    fhir_observation_oe;
+    fhir_observation_oe foo, patients p
+WHERE foo.uuid_SUBJECT_ID = p.patient_id
+;

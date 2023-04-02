@@ -98,8 +98,7 @@ WITH distinct_org AS (
             ON ns_observation_micro_test.name = 'ObservationMicroTest'
         LEFT JOIN fhir_etl.uuid_namespace ns_specimen
             ON ns_specimen.name = 'SpecimenMicro'
-)
-
+), patients as (SELECT DISTINCT patient_id FROM mimic_fhir.unite_fhir_conditions)
 INSERT INTO mimic_fhir.observation_micro_test  
 SELECT 
     uuid_MICRO_TEST AS id
@@ -149,5 +148,7 @@ SELECT
         
     )) AS fhir 
 FROM
-    fhir_observation_micro_test
+    fhir_observation_micro_test fomt, patients p
+WHERE fomt.uuid_SUBJECT_ID = p.patient_id
+;
     

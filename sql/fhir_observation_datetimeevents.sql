@@ -26,7 +26,7 @@ WITH fhir_observation_de AS (
             ON ns_patient.name = 'Patient'
         LEFT JOIN fhir_etl.uuid_namespace ns_observation_de
             ON ns_observation_de.name = 'ObservationDatetimeevents'
-)
+), patients as (SELECT DISTINCT patient_id FROM mimic_fhir.unite_fhir_conditions)
 INSERT INTO mimic_fhir.observation_datetimeevents
 SELECT
     uuid_DATETIMEEVENT as id
@@ -60,4 +60,5 @@ SELECT
         , 'valueDateTime', de_VALUE -- Main value of interest from this resource 
     )) as fhir 
 FROM
-    fhir_observation_de;
+    fhir_observation_de fod, patients p
+WHERE fod.uuid_SUBJECT_ID = p.patient_id

@@ -37,7 +37,7 @@ WITH vital_signs AS (
             ON ns_observation_vs.name = 'ObservationVitalSigns'
         LEFT JOIN fhir_etl.uuid_namespace ns_procedure
             ON ns_procedure.name = 'ProcedureED'
-)
+), patients as (SELECT DISTINCT patient_id FROM mimic_fhir.unite_fhir_conditions)
 INSERT INTO mimic_fhir.observation_vital_signs
 SELECT 
     uuid_VITALSIGN AS id
@@ -181,8 +181,9 @@ SELECT
         ELSE NULL END
     )) AS fhir
 FROM
-    fhir_observation_vs;
-
+    fhir_observation_vs fov, patients p
+WHERE fov.uuid_SUBJECT_ID = p.patient_id
+;
 
  --unnest triage vitalsigns, since each stored as individual fhir resource
 WITH triage_vital_signs AS (
@@ -220,7 +221,7 @@ WITH triage_vital_signs AS (
             ON ns_observation_vs.name = 'ObservationVitalSigns'
         LEFT JOIN fhir_etl.uuid_namespace ns_procedure
             ON ns_procedure.name = 'ProcedureED'
-)
+), patients as (SELECT DISTINCT patient_id FROM mimic_fhir.unite_fhir_conditions)
 INSERT INTO mimic_fhir.observation_vital_signs
 SELECT 
     uuid_VITALSIGN AS id
@@ -364,4 +365,6 @@ SELECT
         ELSE NULL END
     )) AS fhir
 FROM
-    fhir_observation_vs;
+    fhir_observation_vs fov, patients p
+WHERE fov.uuid_SUBJECT_ID = p.patient_id
+;

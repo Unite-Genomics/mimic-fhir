@@ -38,8 +38,7 @@ WITH fhir_observation_micro_susc AS (
             ON mi.interpretation = interp.mimic_interpretation
     WHERE 
         mi.ab_itemid IS NOT NULL
-)
-
+), patients as (SELECT DISTINCT patient_id FROM mimic_fhir.unite_fhir_conditions)
 INSERT INTO mimic_fhir.observation_micro_susc  
 SELECT 
     uuid_MICRO_SUSC AS id
@@ -106,4 +105,6 @@ SELECT
             ELSE NULL END
     )) AS fhir
 FROM
-    fhir_observation_micro_susc
+    fhir_observation_micro_susc foms, patients p
+WHERE foms.uuid_SUBJECT_ID = p.patient_id
+;

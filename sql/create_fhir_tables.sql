@@ -55,11 +55,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 \echo fn_med_statement
 \i fn/fn_med_statement.sql
 
-
 \echo fn_create_table_patient_dependent
 \i fn/fn_create_table_patient_dependent.sql
 
--- institutional resources
+---- institutional resources
 \echo =========================== mimic_fhir tables ====================================
 \echo fhir_organization
 \i fhir_organization.sql
@@ -109,6 +108,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 \echo fhir_medication_request
 \i fhir_medication_request.sql
 
+-- UNITE: create a table to filter observations down to only those patients with condtions that concern us
+\echo "UNITE:: Create table of patients with interesting conditions"
+\i unite_fhir_conditions.sql
+
 -- data resources: observations
 \echo fhir_observation_chartevents
 \i fhir_observation_chartevents.sql
@@ -127,10 +130,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 \echo fhir_observation_micro_org
 \i fhir_observation_micro_org.sql
 
-
 \echo fhir_observation_micro_susc
 \i fhir_observation_micro_susc.sql
-
 
 \echo fhir_observation_outputevents
 \i fhir_observation_outputevents.sql

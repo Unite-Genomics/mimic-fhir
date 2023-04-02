@@ -35,7 +35,7 @@ WITH fhir_observation_ce as (
         -- filter out the one duplicate value (one patient at one charttime)
         ((stay_id = 34934165) AND (charttime = '2151-10-03 05:14:00.000')) = FALSE
         AND value IS NOT NULL -- one value in the whole TABLE
-)
+), patients as (SELECT DISTINCT patient_id FROM mimic_fhir.unite_fhir_conditions)
 INSERT INTO mimic_fhir.observation_chartevents
 SELECT 
     uuid_CHARTEVENTS AS id
@@ -102,4 +102,5 @@ SELECT
         )) ELSE NULL END
     )) AS fhir
 FROM
-    fhir_observation_ce;
+    fhir_observation_ce fce, patients p
+WHERE fce.uuid_SUBJECT_ID = p.patient_id

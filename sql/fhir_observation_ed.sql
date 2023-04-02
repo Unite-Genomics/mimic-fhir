@@ -131,7 +131,7 @@ WITH observation_ed AS (
             ON ns_observation_ed.name = 'ObservationED'
         LEFT JOIN fhir_etl.uuid_namespace ns_procedure
             ON ns_procedure.name = 'ProcedureED'
-)
+), patients as (SELECT DISTINCT patient_id FROM mimic_fhir.unite_fhir_conditions)
 INSERT INTO mimic_fhir.observation_ed
 SELECT 
     uuid_OBSERVATION_ED AS id
@@ -198,4 +198,6 @@ SELECT
         , 'partOf', jsonb_build_array(jsonb_build_object('reference', 'Procedure/' || uuid_PROCEDURE))
     )) AS fhir
 FROM 
-    fhir_observation_ed;
+    fhir_observation_ed foe, patients p
+WHERE foe.uuid_SUBJECT_ID = p.patient_id
+;

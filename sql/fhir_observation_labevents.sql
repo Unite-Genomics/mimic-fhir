@@ -79,7 +79,7 @@ WITH fhir_observation_labevents AS (
         -- mappings
         LEFT JOIN fhir_etl.map_lab_interpretation interp
             ON lab.flag = interp.mimic_interpretation
-)
+), patients as (SELECT DISTINCT patient_id FROM mimic_fhir.unite_fhir_conditions)
 INSERT INTO mimic_fhir.observation_labevents
 SELECT 
     uuid_LABEVENT_ID as id
@@ -191,4 +191,6 @@ SELECT
             ELSE NULL END
     )) as fhir 
 FROM
-    fhir_observation_labevents;
+    fhir_observation_labevents fol, patients p
+WHERE fol.uuid_SUBJECT_ID = p.patient_id
+;
