@@ -1,0 +1,6 @@
+# to ignore everything except certain patterns see:  https://stackoverflow.com/a/987162/154461
+# Blacklist all files to start ...
+/*
+
+# ... now Whitelist these directories
+!.gitignore

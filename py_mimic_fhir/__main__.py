@@ -424,17 +424,17 @@ def main(argv=sys.argv):
 
     args = parse_arguments(argv[1:])
     print(args)
-    gcp_args = GoogleArgs(
-        args.gcp_project, args.gcp_topic, args.gcp_location, args.gcp_bucket,
-        args.gcp_dataset, args.gcp_fhirstore, args.gcp_export_folder
-    )
+#    gcp_args = GoogleArgs(
+#        args.gcp_project, args.gcp_topic, args.gcp_location, args.gcp_bucket,
+#        args.gcp_dataset, args.gcp_fhirstore, args.gcp_export_folder
+#    )
     set_logger(args.log_path)
     if args.actions == 'validate':
-        validate(args, gcp_args)
+        validate(args, None)
     elif args.actions == 'revalidate':
-        revalidate(args, gcp_args)
+        revalidate(args, None)
     elif args.actions == 'export':
-        export(args, gcp_args)
+        export(args, None)
     elif args.actions == 'terminology':
         terminology(args)
     else:
