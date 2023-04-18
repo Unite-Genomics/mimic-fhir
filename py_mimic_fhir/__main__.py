@@ -3,7 +3,6 @@ import os
 import sys
 from datetime import datetime
 import logging
-import pandas as pd
 from pathlib import Path
 
 from py_mimic_fhir.validate import validate_n_patients, multiprocess_validate, revalidate_bad_bundles
@@ -417,6 +416,8 @@ def set_logger(log_path):
             logging.StreamHandler()
         ]
     )
+    logging.captureWarnings(True)
+    logging.getLogger("py.warnings").setLevel(logging.CRITICAL)
 
 
 def main(argv=sys.argv):
