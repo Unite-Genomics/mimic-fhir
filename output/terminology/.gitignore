@@ -4,5 +4,3 @@
 
 # ... now Whitelist these directories
 !.gitignore
-!terminology/
-!jsons/

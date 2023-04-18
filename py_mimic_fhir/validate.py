@@ -1,4 +1,7 @@
 # Validation routines
+import pprint
+import sys
+
 import pandas as pd
 import logging
 import shutil
@@ -125,7 +128,9 @@ def validate_all_bundles(patient_id, db_conn, margs, gcp_args):
             name, patient_id, db_conn, margs, gcp_args
         )
         response_list.append(bundle_response)
-    db_conn.close()
+    # The validate_all_bundles function is called in a loop by validate_n_patients.  It is an error to close the
+    #    database connection here...
+    # db_conn.close()
     return response_list
 
 
