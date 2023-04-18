@@ -169,7 +169,7 @@ def init_data_bundle(
         response = bundle.publish(gcp_args)
 
 
-#----------------- Revalidate bad bundles ----------------------------
+# ----------------- Revalidate bad bundles ----------------------------
 def revalidate_bad_bundles(args, margs, gcp_args):
 
     db_conn = MFDatabaseConnection(

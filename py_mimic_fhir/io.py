@@ -297,7 +297,11 @@ def create_folder_if_not_exists(folder_name):
 
 
 def write_ndjson_by_table_name(table, output_folder, resource_list):
-    output = [json.dumps(resource) for resource in resource_list]
+    if isinstance(resource_list, list):
+        output = [json.dumps(resource) for resource in resource_list]
+    else:
+        # Pandas dataframe
+        output = [json.dumps(r[1]) for r in resource_list.itertuples()]
     output_ndjson = '\n'.join(output)
 
     if len(output_ndjson) != 0:
