@@ -1,8 +1,6 @@
 # IO module has functions for exporting resources from HAPI and GCP
 
 import logging
-import numpy as np
-import pandas as pd
 import json
 import requests
 import base64
@@ -139,7 +137,7 @@ def write_exported_resource_to_ndjson(
     resp_poll, profile, output_path, limit=10000
 ):
     output_file = f'{output_path}/{profile}.ndjson'
-    if resp_poll.text is None:
+    if not resp_poll.text:
         logger.error(f'{profile} response poll is empty!!')
         return False
 
